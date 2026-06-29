@@ -5,64 +5,45 @@
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
   button { font-size: 16px; padding: 10px; cursor: pointer; background: #ff9800; color: #fff; border: none; border-radius: 8px; box-shadow: 0 4px #c62828; font-weight: bold; }
   button:hover { background: #ffb74d; transform: translateY(2px); box-shadow: 0 2px #c62828; }
-  .eat { background: #e53935; box-shadow: 0 4px #b71c1c; grid-column: span 2; }
-  .sys { background: #78909c; box-shadow: 0 4px #455a64; grid-column: span 2; }
+  .eat { background: #e53935; box-shadow: 0 4px #b71c1c; }
+  .sys { background: #78909c; box-shadow: 0 4px #455a64; grid-column: span 2; margin-top: 5px; }
   .plate { font-size: 45px; margin: 15px 0; background: rgba(255,255,255,0.1); border-radius: 8px; min-height: 70px; display: flex; justify-content: center; align-items: center; gap: 15px; }
 </style></head><body>
   <h1>🍳 キッチンなんでも屋 🏪</h1><div id="m-disp" style="display:none; font-size:20px; font-weight:bold; color:#2e7d32; margin-bottom:10px;">売上レジ: 0円 💰</div>
   <div class="box"><div id="msg" style="font-size:20px; font-weight:bold; line-height:1.5;">いらっしゃいませ！<br>厨房に入りますか？席につきますか？🤔</div>
-    <div id="cho" class="grid">
-      <button onclick="stStaff()" style="grid-column:span 2;">🙋‍♂️ 店員として厨房に立つ</button>
-      <button onclick="stCust()" style="grid-column:span 2; background:#e65100;">🧍 客として席で注文する</button>
-    </div></div>
+    <div id="cho" class="grid"><button onclick="stStaff()" style="grid-column:span 2;">🙋‍♂️ 店員として厨房に立つ</button><button onclick="stCust()" style="grid-column:span 2; background:#e65100;">🧍 客として席で注文する</button></div></div>
 <script>
   const foods = { gyo:['🥟','餃子','チョコ餃子'], bur:['🍔','ハンバーガー','パンバーガー'], piz:['🍕','ピザ','オアシスピザ'], stk:['🥩','ハンバーグ','ゴールドハンバーグ'], cur:['🍛','カレー','コーヒーカレー'], chs:['🧀','チーズ','穴あきチーズ'], egg:['🥚','ゆでたまご','マトリョーシカ卵'] };
   const ords = [ {b:'cur', t:'chs', n:'チーズカレー'}, {b:'stk', t:'chs', n:'チーズハンバーグ'}, {b:'piz', t:'egg', n:'たまごピザ'}, {b:'bur', t:'chs', n:'チーズバーガー'} ];
   let curOrd, selB, cash = 0, bCnt, curE;
   function showReset(m, b) { document.getElementById('msg').innerHTML = m; document.getElementById('cho').innerHTML = b; }
 
-  // 店員
   function stStaff() {
-    document.getElementById('m-disp').style.display = 'inline-block';
-    curOrd = ords[Math.floor(Math.random() * ords.length)];
-    let h = `🏽 厨房 🏽<br>オーダー：<span style="color:#ffeb3b;">「${curOrd.n}」</span><br>ベースを選んでね！👇`;
-    let btn = Object.keys(foods).map(k => `<button onclick="pkB('${k}')">${foods[k][0]} ${foods[k][1]}</button>`).join('');
-    showReset(h, btn);
+    document.getElementById('m-disp').style.display = 'inline-block'; curOrd = ords[Math.floor(Math.random() * ords.length)];
+    showReset(`🏽 厨房 🏽<br>オーダー：<span style="color:#ffeb3b;">「${curOrd.n}」</span><br>ベースを選んでね！👇`, Object.keys(foods).map(k => `<button onclick="pkB('${k}')">${foods[k][0]} ${foods[k][1]}</button>`).join(''));
   }
-  function pkB(k) {
-    selB = k;
-    let btn = Object.keys(foods).map(k => `<button onclick="pkT('${k}')">${foods[k][0]} ${foods[k][1]}</button>`).join('');
-    showReset(`調理中:${foods[k][0]}<br>トッピングを選んで完成させてね！👇`, btn);
-  }
+  function pkB(k) { selB = k; showReset(`調理中:${foods[k][0]}<br>トッピングを選んでね！👇`, Object.keys(foods).map(k => `<button onclick="pkT('${k}')">${foods[k][0]} ${foods[k][1]}</button>`).join('')); }
   function pkT(k) {
     let sec = Math.floor(Math.random()*3)+3, f = foods[selB][0]+foods[k][0];
-    showReset(`🤖 ロボに料理をセットしました！<br>客席へ運んでいます...`, `<div class="plate"><span style="animation: bounce 0.5s infinite alternate;">🤖</span><span id="t" style="font-size:16px;color:#ffeb3b;">移動中 (${sec}秒)</span></div>`);
+    showReset(`🤖 ロボに料理をセットしました！<br>客席へ運んでいます...`, `<div class="plate">🤖<span id="t" style="font-size:16px;color:#ffeb3b;">移動中 (${sec}秒)</span></div>`);
     let tm = setInterval(() => { sec--; if(sec>0) document.getElementById('t').innerText=`移動中 (${sec}秒)`; else clearInterval(tm); }, 1000);
     setTimeout(() => {
-      let isOk = (selB === curOrd.b && k === curOrd.t); cash += isOk ? 300 : 0;
-      document.getElementById('m-disp').innerText = `売上レジ: ${cash}円 💰`;
-      let res = isOk ? `✨ 大成功！ ✨<br>客「これこれ！美味しい！」<br>💰300円ゲット！` : `🤪 創作料理を配膳した！ 🤪<br>客「頼んだのと違うけどまぁいいか…？」<br>売上0円！`;
-      showReset(`<div class="plate">${f}</div>`+res, `<button onclick="stStaff()" class="sys">次のオーダーを受ける 🛎️</button><button onclick="location.reload()" class="sys">🔄 戻る</button>`);
+      let isOk = (selB === curOrd.b && k === curOrd.t); cash += isOk ? 300 : 0; document.getElementById('m-disp').innerText = `売上レジ: ${cash}円 💰`;
+      showReset(`<div class="plate">${f}</div>`+(isOk ? `✨ 大成功！ ✨<br>💰300円ゲット！` : `🤪 売上0円！`), `<button onclick="stStaff()" class="sys">次のオーダー 🛎️</button><button onclick="location.reload()" class="sys">🔄 戻る</button>`);
     }, sec*1000);
   }
 
-  // 客
-  function stCust() {
-    let btn = Object.keys(foods).map(k => `<button onclick="odCust('${k}')">${foods[k][0]} ${foods[k][1]}</button>`).join('');
-    showReset("🧍 客席 🧍<br>メニューから何を注文する？👇", btn);
-  }
+  function stCust() { showReset("🧍 客席 🧍<br>何にする？👇", Object.keys(foods).map(k => `<button onclick="odCust('${k}')">${foods[k][0]} ${foods[k][1]}</button>`).join('')); }
   function odCust(k) {
     let sec = Math.floor(Math.random()*3)+3; curE = foods[k][0]; bCnt = 3;
-    showReset(`⏳ 注文しました！<br>「${foods[k][2]}」を調理中...`, `<div class="plate">🤖<span style="font-size:16px;">ロボ接近中... (${sec}秒)</span></div><div id="w" style="color:#4fc3f7;">💧 お水準備中...</div>`);
-    setTimeout(() => document.getElementById('w').innerText = "💧 シュッ！お水が1秒で届いた！", 1000);
-    setTimeout(() => {
-      showReset(`🤖 ロボ「お待たせしました！」<br>『${foods[k][2]}』が到着！`, `<div class="plate"><span id="fd">${curE}${curE}${curE}</span><span>🥛</span></div><button onclick="eat()" class="eat">😋 ガブガブ食べる！</button>`);
-    }, sec*1000);
+    showReset(`⏳ 調理中...`, `<div class="plate">🤖<span style="font-size:16px;">ロボ接近中 (${sec}秒)</span></div><div id="w" style="color:#4fc3f7;">💧 お水準備中...</div>`);
+    setTimeout(() => document.getElementById('w').innerText = "💧 お水が1秒で届いた！", 1000);
+    setTimeout(() => { showEat(`🤖 『${foods[k][2]}』が到着！`); }, sec*1000);
   }
+  function showEat(m) { showReset(m, `<div class="plate"><span id="fd">${curE.repeat(bCnt)}</span><span>🥛</span></div><button onclick="eat()" class="eat">😋 ガブガブ</button><button onclick="escape()" class="eat" style="background:#2c3e50;box-shadow:0 4px #1a252f;">🏃‍♂️ 買い逃げ</button>`); }
   function eat() {
-    bCnt--; let fd = document.getElementById('fd');
-    if (bCnt === 2) { fd.innerText = curE+curE; document.getElementById('msg').innerHTML = "✨ ガブガブッ！ウマすぎる！"; }
-    else if (bCnt === 1) { fd.innerText = curE; document.getElementById('msg').innerHTML = "✨ 最後のひとくち！"; }
+    bCnt--; if (bCnt > 0) { showEat(bCnt===2 ? "✨ ガブガブッ！ウマすぎる！" : "✨ 最後のひとくち！"); }
     else { showReset("✨ 完食！！！ ごちそうさまでした！ ✨", `<button onclick="location.reload()" class="sys">🔄 もう一度お店に来る</button>`); }
   }
+  function escape() { showReset("🏃‍♂️💨 ドタバタ！！<br>あなた「ウヒョー！ごちそうさま！」<br>ロボットの隙を突いて買い逃げ成功した！", `<button onclick="location.reload()" class="sys">🔄 もう一度お店に来る</button>`); }
 </script></body></html>
