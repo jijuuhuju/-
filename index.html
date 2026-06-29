@@ -1,60 +1,78 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>キッチンなんでも屋</title>
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>キッチンなんでも屋 Extreme</title>
 <style>
-  body { font-family: sans-serif; text-align: center; background: #fff3e0 linear-gradient(90deg, rgba(255,152,0,0.1) 1px, transparent 1px) repeat; background-size: 20px 20px; margin:0; padding:10px; overflow-x:hidden; }
-  .box { border: 6px solid #5d4037; padding: 15px; border-radius: 15px; display: inline-block; background: #263238; color: #fff; width: 92%; max-width: 440px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); transition: 0.3s; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-  button { font-size: 15px; padding: 10px; cursor: pointer; background: #ff9800; color: #fff; border: none; border-radius: 8px; box-shadow: 0 4px #c62828; font-weight: bold; }
-  button:hover { background: #ffb74d; }
-  .eat { background: #e53935; box-shadow: 0 4px #b71c1c; }
-  .sys { background: #78909c; box-shadow: 0 4px #455a64; grid-column: span 2; margin-top: 5px; }
-  .table-scene { display: flex; align-items: center; background: #a1887f; border: 4px solid #5d4037; border-radius: 8px; padding: 10px; margin: 10px 0; min-height: 65px; position: relative; }
-  .rb { font-size: 40px; position: absolute; left: -50px; transition: left 1.5s ease-out; }
-  .desk { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 40px; }
-  .street { position: relative; height: 60px; background: #90a4ae; border-bottom: 4px solid #37474f; border-radius: 6px; margin: 10px 0; overflow: hidden; }
-  .run { font-size: 30px; position: absolute; left: -50px; animation: rOut 2s forwards linear; }
-  @keyframes rOut { 0% { left: -10%; } 100% { left: 110%; } }
+  body { font-family: sans-serif; text-align: center; background: #efebe9 linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px); background-size: 20px 20px; margin:0; padding:10px; overflow-x:hidden; }
+  .box { border: 6px solid #4e342e; padding: 12px; border-radius: 12px; display: inline-block; background: #1e262c; color: #fff; width: 94%; max-width: 440px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); transition: 0.3s; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+  button { font-size: 14px; padding: 9px; cursor: pointer; background: #e65100; color: #fff; border: none; border-radius: 6px; box-shadow: 0 4px #bf360c; font-weight: bold; }
+  button:hover { background: #f57c00; }
+  .eat { background: #d32f2f; box-shadow: 0 4px #5d0012; }
+  .sys { background: #546e7a; box-shadow: 0 4px #263238; grid-column: span 2; margin-top: 5px; }
+  .scene { background: #8d6e63; border: 4px solid #4e342e; border-radius: 8px; padding: 10px; margin: 8px 0; min-height: 85px; position: relative; box-shadow: inset 0 0 20px rgba(0,0,0,0.4); display: flex; align-items: center; }
+  .rb { font-size: 35px; position: absolute; left: -50px; transition: left 1.2s ease; }
+  .room { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+  .door { font-size: 30px; position: relative; animation: in 1.2s forwards ease-out; }
+  .bubble { background: white; color: black; border: 3px solid #ff9800; border-radius: 12px; padding: 5px 10px; font-size: 14px; font-weight: bold; position: relative; max-width: 140px; word-break: break-all; box-shadow: 2px 2px 5px rgba(0,0,0,0.2); }
+  .bubble::after { content: ''; position: absolute; right: -10px; top: 40%; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent white; }
+  .desk-set { display: flex; align-items: center; gap: 2px; font-size: 32px; background: #a1887f; padding: 4px; border-radius: 4px; border: 2px solid #5d4037; }
+  .street { position: relative; height: 60px; background: #546e7a; border-bottom: 6px solid #263238; border-radius: 6px; margin: 8px 0; overflow: hidden; }
+  .run { font-size: 32px; position: absolute; bottom: 3px; left: -60px; animation: rOut 2s forwards linear; }
+  @keyframes in { 0% { transform: translateX(-120px) scale(0.5); opacity: 0; } 100% { transform: translateX(0) scale(1); opacity: 1; } }
+  @keyframes rOut { 0% { left: -15%; } 100% { left: 115%; } }
 </style></head><body>
-  <h1>🍳 キッチンなんでも屋 🏪</h1><div id="m-disp" style="display:none; font-size:20px; font-weight:bold; color:#2e7d32; margin-bottom:5px;">売上レジ: 0円 💰</div>
-  <div id="bx" class="box"><div id="msg" style="font-size:19px; font-weight:bold; line-height:1.4;">いらっしゃいませ！<br>厨房に入りますか？席につきますか？🤔</div>
-    <div id="cho" class="grid"><button onclick="stStaff()" style="grid-column:span 2;">🙋‍♂️ 店員として厨房に立つ</button><button onclick="stCust()" style="grid-column:span 2; background:#e65100;">🧍 客として席で注文する</button></div></div>
+  <h1>🍳 キッチンなんでも屋 Extreme 🏪</h1><div id="m-disp" style="display:none; font-size:18px; font-weight:bold; color:#1b5e20; margin-bottom:4px;">売上レジ: 0円 💰</div>
+  <div id="bx" class="box"><div id="msg" style="font-size:17px; font-weight:bold; line-height:1.4; color:#ffe082;">【なんでも屋】へようこそ！どの業務を開始しますか？</div>
+    <div id="cho" class="grid"><button onclick="stStaff()" style="grid-column:span 2;">👨‍🍳 厨房（複数オーダー＆怒る客）</button><button onclick="stCust()" style="grid-column:span 2; background:#3e2723; box-shadow:0 4px #1b0000;">🧎 客席（1/2確率のリアル食い逃げ）</button></div></div>
 <script>
-  const foods = { gyo:['🥟','餃子','チョコ餃子'], bur:['🍔','ハンバーガー','パンバーガー'], piz:['🍕','ピザ','オアシスピザ'], stk:['🥩','ハンバーグ','ゴールドハンバーグ'], cur:['🍛','カレー','コーヒーカレー'], chs:['🧀','チーズ','穴あきチーズ'], egg:['🥚','ゆでたまご','マトリョーシカ卵'] };
-  const ords = [ {b:'cur', t:'chs', n:'チーズカレー'}, {b:'stk', t:'chs', n:'チーズハンバーグ'}, {b:'piz', t:'egg', n:'たまごピザ'}, {b:'bur', t:'chs', n:'チーズバーガー'} ];
-  let curOrd, selB, cash = 0, bCnt, curE, bBox = document.getElementById('bx');
+  const foods = { gyo:['🥟','餃子'], bur:['🍔','バーガー'], piz:['🍕','ピザ'], stk:['🥩','肉料理'], cur:['🍛','カレー'], chs:['🧀','チーズ'], egg:['🥚','たまご'] };
+  const animals = ['🐔','🦖🦖','🦖🦖🦖🦖','🦞',' Shrimps 🦐🦐','🦀','🐻','🐱🐱','🐶','🦊'];
+  let cash = 0, bCnt, curE, bBox = document.getElementById('bx'), cCust, ord1, ord2, step = 0;
   function showReset(m, b) { document.getElementById('msg').innerHTML = m; document.getElementById('cho').innerHTML = b; }
 
+  // --- 店員モード (複数注文・吹き出し・間違えると怒る) ---
   function stStaff() {
-    bBox.style.background = '#78909c'; bBox.style.borderColor = '#cfd8dc'; document.getElementById('m-disp').style.display = 'inline-block'; curOrd = ords[Math.floor(Math.random() * ords.length)];
-    showReset(`🏽 厨房（キッチン） 🏽<br>オーダー：<span style="color:#ffeb3b;">「${curOrd.n}」</span><br>ベースを選んでね！👇`, Object.keys(foods).map(k => `<button onclick="pkB('${k}')">${foods[k][0]} ${foods[k][1]}</button>`).join(''));
+    bBox.style.background = '#37474f'; document.getElementById('m-disp').style.display = 'inline-block'; step = 1;
+    cCust = animals[Math.floor(Math.random() * animals.length)];
+    let fKeys = Object.keys(foods);
+    ord1 = fKeys[Math.floor(Math.random() * fKeys.length)];
+    ord2 = fKeys[Math.floor(Math.random() * fKeys.length)];
+    let msgStr = `🛠️ 入口からお客様がご来店！<br>注文をトリガーします。`;
+    let scn = `<div class="scene"><div class="room"><div class="door">${cCust}</div><div class="bubble">「${foods[ord1][1]}」と<br>「${foods[ord2][1]}」をくれ！</div><div class="desk-set">🪑 🪵 🪑</div></div></div>`;
+    showReset(msgStr + scn + `まず【1品目】を調理してください👇`, Object.keys(foods).map(k => `<button onclick="pkB1('${k}')">${foods[k][0]} ${foods[k][1]}</button>`).join(''));
   }
-  function pkB(k) { selB = k; showReset(`厨房で調理中:${foods[k][0]}<br>トッピングを選んでね！👇`, Object.keys(foods).map(k => `<button onclick="pkT('${k}')">${foods[k][0]} ${foods[k][1]}</button>`).join('')); }
-  function pkT(k) {
-    let sec = Math.floor(Math.random()*2)+3, f = foods[selB][0]+foods[k][0];
-    showReset(`🤖 ロボットに料理をセット！<br>客席のテーブルへ運んでいます...`, `<div class="table-scene"><span id="r" class="rb">🤖</span><span id="t" style="margin-left:50px;color:#ffeb3b;">移動中 (${sec}秒)</span></div>`);
+  function pkB1(k) {
+    if(k !== ord1) { angryEnd(); return; }
+    step = 2;
+    let scn = `<div class="scene"><div class="room"><div>👨‍🍳🔥</div><div class="bubble" style="border-color:#4caf50;">1品目クリア！次も頼むぞ。</div><div class="desk-set">🪑 🪵 🪑</div></div></div>`;
+    showReset(`🍳 【調理中】素晴らしい！1品目クリア！<br>続いて【2品目】を調理してロボに乗せてください👇`, Object.keys(foods).map(k => `<button onclick="pkB2('${k}')">${foods[k][0]} ${foods[k][1]}</button>`).join(''));
+  }
+  function pkB2(k) {
+    if(k !== ord2) { angryEnd(); return; }
+    let sec = 3, f = foods[ord1][0]+foods[ord2][0]; cash += 800; document.getElementById('m-disp').innerText = `売上レジ: ${cash}円 💰`;
+    showReset(`🤖 複数注文の積載完了。配膳ロボが机の横へ直行中...`, `<div class="scene"><span id="r" class="rb">🤖</span><span id="t" style="margin-left:50px;color:#ffeb3b;font-weight:bold;">移動中 (${sec}秒)</span><div class="desk-set" style="margin-left:auto;">🪑 🪵 🪑</div></div>`);
     setTimeout(() => { document.getElementById('r').style.left = '10px'; }, 100);
-    let tm = setInterval(() => { sec--; if(sec>0) document.getElementById('t').innerText=`移動中 (${sec}秒)`; else clearInterval(tm); }, 1000);
     setTimeout(() => {
-      let isOk = (selB === curOrd.b && k === curOrd.t); cash += isOk ? 300 : 0; document.getElementById('m-disp').innerText = `売上レジ: ${cash}円 💰`;
-      showReset(`<div class="table-scene"><span class="rb" style="left:10px">🤖</span><div class="desk">${f}</div></div>`+(isOk ? `✨ 大成功！ 💰300円ゲット！` : `🤪 売上0円！`), `<button onclick="stStaff()" class="sys">次のオーダー 🛎️</button><button onclick="location.reload()" class="sys">🔄 戻る</button>`);
-    }, (sec+1)*1000);
+      showReset(`<div class="scene"><span class="rb" style="left:10px">🤖</span><div class="room" style="justify-content:flex-end;"><div class="bubble" style="border-color:#4caf50;margin-right:10px;">「完璧だ！美味い！」</div><div class="desk-set">${f} 🪵</div></div></div>✨ 複数オーダー完遂！報酬 <span style="color:#4caf50;">800円</span> を獲得！`, `<button onclick="stStaff()" class="sys">次のグループを接客 🛎️</button><button onclick="location.reload()" class="sys">戻る</button>`);
+    }, sec*1000);
+  }
+  function angryEnd() {
+    showReset(`<div class="scene"><div class="room"><div class="door" style="animation:none;">${cCust}💢</div><div class="bubble" style="border-color:#d32f2f;">「コラ！注文と<br>全然違うぞ！」</div><div class="desk-set">🪑 🪵 🪑</div></div></div>🚨 お客様を怒らせてしまいました！<br>機嫌を損ねて帰ってしまいました…（売上0円）`, `<button onclick="stStaff()" class="sys">新しい客を待つ 🛎️</button><button onclick="location.reload()" class="sys">戻る</button>`);
   }
 
-  function stCust() { bBox.style.background = '#263238'; bBox.style.borderColor = '#5d4037'; showReset("🧍 客席テーブル 🧍<br>何にする？👇", Object.keys(foods).map(k => `<button onclick="odCust('${k}')">${foods[k][0]} ${foods[k][1]}</button>`).join('')); }
+  // --- 客モード (テーブルセット・リアル配膳・1/2食い逃げ・追跡アニメ) ---
+  function stCust() { bBox.style.background = '#1e262c'; cCust = animals[Math.floor(Math.random() * animals.length)]; showReset("🪑 テーブル席（椅子と机のセット）に座りました。<br>メニューを選んで注文をタップしてください👇", Object.keys(foods).map(k => `<button onclick="odCust('${k}')">${foods[k][0]} ${foods[k][1]}</button>`).join('')); }
   function odCust(k) {
-    curE = foods[k][0]; bCnt = 3; showReset(`⏳ 調理中...`, `<div class="table-scene"><span id="r" class="rb">🤖</span><div class="desk">🪑</div></div><div id="w" style="color:#4fc3f7;">💧 お水準備中...</div>`);
-    setTimeout(() => document.getElementById('w').innerText = "💧 お水が1秒でテーブルに届いた！", 1000);
+    curE = foods[k][0]; bCnt = 3; showReset(`⏳ オーダー送信。調理完了を待っています...`, `<div class="scene"><span id="r" class="rb">🤖</span><div class="room" style="justify-content:flex-end;"><div class="door">${cCust}</div><div class="desk-set">🪑 🪵 🪑</div></div></div><div id="w" style="color:#4fc3f7;font-weight:bold;">💧 1秒でお冷（水）が自動到着します...</div>`);
+    setTimeout(() => document.getElementById('w').innerText = "💧 【自動配膳】冷たいお水が卓上に届きました。", 1000);
     setTimeout(() => { document.getElementById('r').style.left = '10px'; }, 200);
-    setTimeout(() => { showEat(`🤖 ロボが机の隣に到着！『${foods[k][2]}』`); }, 2500);
+    setTimeout(() => { showEat(`🤖 ロボットが椅子の真横・机の隣にピタッと完全停止！料理が届きました。`); }, 2500);
   }
-  function showEat(m) { showReset(m, `<div class="table-scene"><span class="rb" style="left:10px;animation:bounce 0.5s infinite alternate;">🤖</span><div class="desk" id="fd">${curE.repeat(bCnt)}🥛</div></div><button onclick="eat()" class="eat">😋 ガブガブ</button><button onclick="escape()" class="eat" style="background:#2c3e50;box-shadow:0 4px #1a252f;">🏃‍♂️ 食い逃げ</button>`); }
-  function eat() { bCnt--; if (bCnt > 0) showEat(bCnt===2 ? "✨ ガブガブッ！ウマすぎる！" : "✨ 最後のひとくち！"); else showReset("✨ 完食！！！ ごちそうさまでした！ ✨", `<button onclick="location.reload()" class="sys">🔄 もう一度来る</button>`); }
+  function showEat(m) { showReset(m, `<div class="scene"><span class="rb" style="left:10px;animation:bounce 0.4s infinite alternate;">🤖</span><div class="room" style="justify-content:flex-end;"><div class="door">${cCust}</div><div class="desk-set" id="fd">${curE.repeat(bCnt)}🫗🪵</div></div></div><button onclick="eat()" class="eat">😋 ガブガブ食べる！</button><button onclick="escape()" class="eat" style="background:#263238;box-shadow:0 4px #10151a;">🏃‍♂️ 【1/2確率】食い逃げする</button>`); }
+  function eat() { bCnt--; if (bCnt > 0) showEat("✨ ガブガブッ！最高に美味い！"); else showReset("✨ 【完食】ごちそうさまでした！大満足でレジでお金を払いました。 ✨", `<button onclick="location.reload()" class="sys">リピート来店</button>`); }
   function escape() {
-    let success = Math.random() < 0.5;
-    let anime = `<div class="street"><span class="run" style="animation-delay:0s;">🏃‍♂️💨</span><span class="run" style="animation-delay:0.2s;">👨‍🍳💢</span></div>`;
-    showReset("🏃‍♂️💨 店外へ逃走中！！！" + anime, "");
+    let success = Math.random() < 0.5, scr = `<div class="street"><span class="run" style="animation-delay:0s;">🏃‍♂️💨</span><span class="run" style="animation-delay:0.12s;">👨‍🍳💢🏃‍♂️</span></div>`;
+    showReset("🚨 無銭飲食発生！激怒した店員に追われながら店の外（公道）へ逃走中！！！" + scr, "");
     setTimeout(() => {
-      let res = success ? "🎉 食い逃げ成功！<br>店員の追跡を振り切って、タダ飯に成功した！" : "🚨 食い逃げ失敗！<br>店員にガシッと捕まった！お代を払いましょう…😢";
-      showReset(res, `<button onclick="location.reload()" class="sys">🔄 最初に戻る</button>`);
-    }, 2000);
+      showReset(success ? "🎉 【食い逃げ成功】2分の1の賭けに勝った！凄まじいダッシュで店員を振り切り、裏路地へ逃げ延びた！" : "🚨 【食い逃げ失敗】無念！店員の驚異的なスピードに追いつかれ、ガシッと捕まった！お代をきっちり支払いました…😢", `<button onclick="location.reload()" class="sys">最初に戻る</button>`);
+    }, 2200);
   }
 </script></body></html>
